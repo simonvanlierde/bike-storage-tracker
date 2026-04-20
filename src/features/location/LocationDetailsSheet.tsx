@@ -1,7 +1,7 @@
-import { CircleEllipsis, X } from 'lucide-react';
+import { CircleEllipsis } from 'lucide-preact';
 
-import { ModalBackdrop } from '../../components/ModalBackdrop';
-import type { LocationRecord } from '../../lib/storage';
+import { SheetDialog } from '../../components/SheetDialog';
+import type { LocationRecord } from '../../lib/app-data';
 import { LocationDetailContent } from './LocationDetailContent';
 
 export function LocationDetailsSheet({
@@ -12,25 +12,14 @@ export function LocationDetailsSheet({
   onClose: () => void;
 }) {
   return (
-    <ModalBackdrop onClose={onClose}>
-      <section className="editor-sheet" aria-label="Location details">
-        <div className="sheet-header">
-          <h2 className="sheet-title">
-            <CircleEllipsis aria-hidden="true" className="button-icon" />
-            <span>Location details</span>
-          </h2>
-          <button
-            aria-label="Close details"
-            className="ghost-button ghost-button--icon sheet-close sheet-close--compact"
-            type="button"
-            onClick={onClose}
-          >
-            <X aria-hidden="true" className="button-icon" />
-            <span className="sr-only">Close details</span>
-          </button>
-        </div>
-        {current ? <LocationDetailContent entry={current} photoAlt="Saved bike reference" /> : null}
-      </section>
-    </ModalBackdrop>
+    <SheetDialog
+      closeLabel="Close details"
+      label="Location details"
+      title="Location details"
+      titleIcon={<CircleEllipsis aria-hidden="true" className="button-icon" />}
+      onClose={onClose}
+    >
+      {current ? <LocationDetailContent entry={current} photoAlt="Saved bike reference" /> : null}
+    </SheetDialog>
   );
 }

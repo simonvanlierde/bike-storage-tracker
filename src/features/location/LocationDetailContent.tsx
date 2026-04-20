@@ -1,14 +1,49 @@
 import { DetailRow } from '../../components/DetailRow';
-import type { LocationRecord } from '../../lib/storage';
+import { usePhotoUrl } from '../../components/usePhotoUrl';
+import type { LocationRecord } from '../../lib/app-data';
 import { getSummary, shouldShowEntryField, showFloor, titleCase } from './display';
 
 export function LocationDetailContent({
   entry,
   photoAlt,
+  draftPhotoFile,
 }: {
   entry: LocationRecord;
   photoAlt: string;
+  draftPhotoFile?: File | null;
 }) {
+  const photoUrl = usePhotoUrl(entry.photoId, draftPhotoFile);
+  const stationDetails =
+    entry.mode === 'station'
+      ? [
+          { label: 'Lane', value: entry.lane },
+          {
+            label: 'Side',
+            value:
+              shouldShowEntryField(entry, 'side') && entry.side ? titleCase(entry.side) : undefined,
+          },
+          {
+            label: 'Rack level',
+            value:
+              shouldShowEntryField(entry, 'rackLevel') && entry.rackLevel
+                ? titleCase(entry.rackLevel)
+                : undefined,
+          },
+          {
+            label: 'Distance',
+            value:
+              shouldShowEntryField(entry, 'distance') && entry.distance
+                ? titleCase(entry.distance)
+                : undefined,
+          },
+          { label: 'Station floor', value: showFloor(entry) ? entry.floor : undefined },
+          {
+            label: 'Rack number',
+            value: shouldShowEntryField(entry, 'rackNumber') ? entry.rackNumber : undefined,
+          },
+        ]
+      : [];
+
   return (
     <div className="preview-stack">
       {entry.mode === 'outside' ? (
@@ -21,46 +56,17 @@ export function LocationDetailContent({
       )}
 
       <DetailRow label="Station" value={entry.stationName} />
-      {entry.mode === 'station' ? (
-        <>
-          <DetailRow label="Lane" value={entry.lane} />
-          <DetailRow
-            label="Side"
-            value={
-              shouldShowEntryField(entry, 'side') && entry.side ? titleCase(entry.side) : undefined
-            }
-          />
-          <DetailRow
-            label="Rack level"
-            value={
-              shouldShowEntryField(entry, 'rackLevel') && entry.rackLevel
-                ? titleCase(entry.rackLevel)
-                : undefined
-            }
-          />
-          <DetailRow
-            label="Distance"
-            value={
-              shouldShowEntryField(entry, 'distance') && entry.distance
-                ? titleCase(entry.distance)
-                : undefined
-            }
-          />
-          <DetailRow label="Station floor" value={showFloor(entry) ? entry.floor : undefined} />
-          <DetailRow
-            label="Rack number"
-            value={shouldShowEntryField(entry, 'rackNumber') ? entry.rackNumber : undefined}
-          />
-        </>
-      ) : null}
+      {stationDetails.map((detail) => (
+        <DetailRow key={detail.label} label={detail.label} value={detail.value} />
+      ))}
 
       {entry.mode === 'station' && entry.notes ? (
         <p className="detail-note">{entry.notes}</p>
       ) : null}
 
-      {entry.photoDataUrl ? (
+      {photoUrl ? (
         <figure className="photo-preview">
-          <img src={entry.photoDataUrl} alt={photoAlt} />
+          <img src={photoUrl} alt={photoAlt} />
         </figure>
       ) : null}
     </div>

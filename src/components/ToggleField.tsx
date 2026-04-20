@@ -15,7 +15,7 @@ export function ToggleField({
         checked={checked}
         className="toggle-row__input"
         type="checkbox"
-        onChange={(event) => onChange(event.target.checked)}
+        onChange={(event) => onChange(event.currentTarget.checked)}
       />
     </label>
   );

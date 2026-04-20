@@ -1,15 +1,22 @@
-import { describe, expect, it } from 'vitest';
-
+import { beforeEach, describe, expect, it } from 'vitest';
+import type { AppData } from '../src/lib/app-data';
+import { defaultAppData } from '../src/lib/defaults';
 import {
   createLocationRecord,
-  defaultState,
-  loadState,
   promoteRecentLocation,
   saveLocation,
   updateStationConfig,
-} from '../src/lib/storage';
+} from '../src/lib/domain';
+import { APP_DATA_STORAGE_KEY, clearPhotoStore, loadAppData } from '../src/lib/repository';
 
 describe('location storage', () => {
+  const defaultState: AppData = defaultAppData;
+
+  beforeEach(async () => {
+    window.localStorage.clear();
+    await clearPhotoStore();
+  });
+
   it('saves a new current spot and moves the previous one into recent history', () => {
     const previous = createLocationRecord(
       {
@@ -328,25 +335,24 @@ describe('location storage', () => {
       outsideDescription: 'Locked to the signpost near the tram stop',
     });
     if (entry.mode === 'outside') {
-      expect(entry.photoDataUrl).toBeUndefined();
+      expect(entry.photoId).toBeUndefined();
     }
   });
 
-  it('resets malformed persisted state back to the default state', () => {
+  it('resets malformed persisted state back to the default state', async () => {
     window.localStorage.setItem(
-      'bike-storage-tracker-state-v2',
+      APP_DATA_STORAGE_KEY,
       JSON.stringify({
-        version: 2,
         current: {
           mode: 'station',
         },
       }),
     );
 
-    expect(loadState()).toEqual(defaultState);
+    await expect(loadAppData()).resolves.toEqual(defaultState);
   });
 
-  it('rejects the old storage shape and starts fresh', () => {
+  it('rejects the old storage shape and starts fresh', async () => {
     window.localStorage.setItem(
       'bike-storage-tracker-state',
       JSON.stringify({
@@ -359,6 +365,6 @@ describe('location storage', () => {
       }),
     );
 
-    expect(loadState()).toEqual(defaultState);
+    await expect(loadAppData()).resolves.toEqual(defaultState);
   });
 });

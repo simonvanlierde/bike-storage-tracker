@@ -1,4 +1,4 @@
-import type { EnabledFields, LocationRecord } from '../../lib/storage';
+import type { EnabledFields, LocationRecord } from '../../lib/app-data';
 
 export function titleCase(value?: string) {
   if (!value) {

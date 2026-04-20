@@ -1,6 +1,6 @@
-import { CircleEllipsis, MapPinned } from 'lucide-react';
+import { CircleEllipsis, MapPinned } from 'lucide-preact';
 
-import type { LocationRecord } from '../../lib/storage';
+import type { LocationRecord } from '../../lib/app-data';
 import { formatTimestamp } from './display';
 
 export function CurrentSpotCard({

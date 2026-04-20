@@ -1,4 +1,4 @@
-import { History, Settings2 } from 'lucide-react';
+import { History, Settings2 } from 'lucide-preact';
 
 export function UtilityActions({
   recentCount,
