@@ -1,0 +1,89 @@
+:root {
+  font-family: "DM Sans", "Segoe UI", sans-serif;
+  color: #18241f;
+  background: #f3f1ea;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --ink: #18241f;
+  --ink-soft: #31433b;
+  --muted: #617169;
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-strong: rgba(255, 255, 255, 0.95);
+  --surface-soft: rgba(245, 242, 234, 0.94);
+  --accent: #305846;
+  --accent-soft: rgba(48, 88, 70, 0.1);
+  --line: rgba(24, 36, 31, 0.12);
+  --line-strong: rgba(24, 36, 31, 0.2);
+  --line-soft: rgba(24, 36, 31, 0.08);
+  --shadow: 0 20px 48px rgba(24, 36, 31, 0.09);
+  --shadow-strong: 0 18px 36px rgba(24, 36, 31, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.95), transparent 34%),
+    linear-gradient(180deg, #faf8f2 0%, #f3f1ea 52%, #ece7de 100%);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(48, 88, 70, 0.22);
+  outline-offset: 2px;
+}
+
+input,
+textarea {
+  min-height: 3rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.app-shell {
+  width: min(40rem, 100%);
+  margin: 0 auto;
+  padding: 1.15rem 0.95rem 3rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

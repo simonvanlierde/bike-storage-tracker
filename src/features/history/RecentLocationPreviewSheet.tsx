@@ -1,0 +1,39 @@
+import { RotateCcw } from 'lucide-preact';
+
+import { SheetDialog } from '../../components/SheetDialog';
+import type { LocationRecord } from '../../lib/app-data';
+import { formatTimestamp } from '../location/display';
+import { LocationDetailContent } from '../location/LocationDetailContent';
+
+export function RecentLocationPreviewSheet({
+  selectedRecent,
+  onClose,
+  onUse,
+}: {
+  selectedRecent: LocationRecord;
+  onClose: () => void;
+  onUse: (id: string) => void;
+}) {
+  return (
+    <SheetDialog
+      label="Recent location preview"
+      title={
+        selectedRecent.mode === 'outside' ? 'Outside the station' : `Lane ${selectedRecent.lane}`
+      }
+      onClose={onClose}
+    >
+      <div className="preview-stack">
+        <LocationDetailContent entry={selectedRecent} photoAlt="Recent bike reference" />
+        <p className="timestamp">Saved {formatTimestamp(selectedRecent.updatedAt)}</p>
+        <button
+          className="primary-button primary-button--wide"
+          type="button"
+          onClick={() => onUse(selectedRecent.id)}
+        >
+          <RotateCcw aria-hidden="true" className="button-icon" />
+          Use this location
+        </button>
+      </div>
+    </SheetDialog>
+  );
+}
