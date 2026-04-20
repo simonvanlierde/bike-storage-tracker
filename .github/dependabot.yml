@@ -1,0 +1,54 @@
+version: 2
+
+multi-ecosystem-groups:
+  infrastructure:
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:00"
+      timezone: Europe/Amsterdam
+    labels:
+      - dependencies
+      - infrastructure
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:00"
+      timezone: Europe/Amsterdam
+    labels:
+      - dependencies
+    open-pull-requests-limit: 3
+    groups:
+      npm-non-major:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+      npm-major:
+        patterns:
+          - "*"
+        update-types:
+          - major
+
+  - package-ecosystem: docker
+    directory: /
+    patterns:
+      - "*"
+    multi-ecosystem-group: infrastructure
+
+  - package-ecosystem: docker-compose
+    directory: /
+    patterns:
+      - "*"
+    multi-ecosystem-group: infrastructure
+
+  - package-ecosystem: github-actions
+    directory: /
+    patterns:
+      - "*"
+    multi-ecosystem-group: infrastructure

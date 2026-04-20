@@ -1,0 +1,12 @@
+.git
+.gitignore
+.codex
+.claude
+.superpowers
+node_modules
+dist
+coverage
+test-results
+*.tsbuildinfo
+README.md
+*.log

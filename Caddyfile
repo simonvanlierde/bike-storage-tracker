@@ -1,0 +1,22 @@
+:80 {
+	root * /srv
+
+	encode zstd gzip
+
+	@health path /healthz
+	respond @health "ok" 200
+
+	@hidden path_regexp hidden ^/(?:\.|.*(?:^|/)\.)
+	respond @hidden 404
+
+	header {
+		-Server
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+
+	# Let the React app handle client-side routes.
+	try_files {path} /index.html
+	file_server
+}
