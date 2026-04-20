@@ -1,0 +1,13 @@
+# Node
+node_modules/
+.pnpm-store/
+dist/
+.coverage
+test-results/
+coverage/
+*.tsbuildinfo
+
+# LLM
+.claude
+.codex/
+.superpowers/
